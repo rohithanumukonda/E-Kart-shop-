@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Kart</title>
+
+    <!-- Font Awesome CSS (for icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- MDB Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="container mt-4">
+        <h2 class="mb-4">Products Page</h2> <br/>
+
+        {% if data %}
+            <div class="row">
+                {% for product in data %}
+                {% if product.category =="jewelery" %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card" style="width: 300px;">
+                            <img src="{{ product.image }}" class="card-img-top" alt="Product Image" style="height: 180px;width: 200px; margin: auto;">
+                            <div class="card-body text-center">
+                                
+                                    <h5 class="card-title">{{ product.title }}</h5>
+                                    <p class="card-text">Price: ${{ product.price }}</p>
+                                    <br/>
+                                    <a href="{{ url_for('add_to_cart', id=product.id) }}"><button class="btn btn-primary">Add to Cart</button></a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+              {% endfor %}
+            </div>
+        {% else %}
+            <p>No product data available.</p>
+        {% endif %}
+
+    
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (required for MDB) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"></script>
+</body>
+</html>

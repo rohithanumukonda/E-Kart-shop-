@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Add your custom CSS styles here */
+        .cart-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            
+        }
+
+        .cart-buttons button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+            background-color: rgb(29, 241, 241);
+            color: rgb(63, 135, 198);
+            border: 1px solid black;
+            border-radius: 5px 
+        
+        }
+
+         /* Styling for the "Buy Now" button */
+         .buy-now-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .buy-now-button button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #4CAF50; /* Green color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <br/><br/>
+    <div class="row">
+        {% if cart_items %}
+            {% for product in cart_items %}
+                <div class="col-md-4 mb-4">
+                    <div class="card" style="width: 450px;">
+                        <img src="{{ product.image }}" class="card-img-top" alt="Product Image" style="height: 180px;width: 200px; margin: auto;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ product.title }}</h5>
+                            <p class="card-text">Price: ${{ product.price }}</p>
+                            <div class="cart-buttons">
+                                
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <form method="POST" action="{{ url_for('update_quantity', id=product.id) }}">
+                                        <input type="submit" name="action" value="-" class="btn btn-outline-danger">
+                                    </form>
+                                    <span>{{ product.quantity }}</span>
+                                    <form method="POST" action="{{ url_for('update_quantity', id=product.id) }}">
+                                        <input type="submit" name="action" value="+" class="btn btn-outline-success">
+                                    </form>
+                                </div>
+                                
+                                <a href="{{ url_for('remove_from_cart', id=product.id) }}">
+                                    <button class="btn btn-outline-primary">Remove
+                                    </button>
+                                </a>
+                                <!-- <a href="{{ url_for('remove_from_cart', id=product.id) }}">
+                                    <button class="btn btn-outline-primary">Buy Now
+                                    </button>
+                                </a> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-md-12">
+                <p>Your cart is empty.</p>
+            </div>
+        {% endif %}
+    </div>
+    <!-- "Buy Now" button section -->
+    <a href="{{ url_for('buy_now') }}">
+        <div class="buy-now-button">
+        <button class="btn btn-outline-primary">Buy Now
+        </button>
+        
+    </div>
+    </a>
+</body>
+</html>
